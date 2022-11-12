@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.skilldistillery.cardgame.BlackjackHand;
 import com.skilldistillery.cardgame.BlackjackHandComparator;
+import com.skilldistillery.cards.Deck;
 import com.skilldistillery.players.Dealer;
 import com.skilldistillery.players.Player;
 
@@ -36,6 +37,12 @@ public class BlackJackApp {
 	}
 
 	public void initialDeal(Dealer dealer, Player player) {
+		if (dealer.getDeck().checkDeckSize() < 12) {
+			dealer.setDeck(new Deck());
+			printStars();
+			System.out.println("The dealer will prepare a new deck now");
+			printStars();
+		}
 		dealer.getDeck().shuffle();
 		player.getHand().clear();
 		dealer.getHand().clear();
@@ -76,8 +83,8 @@ public class BlackJackApp {
 
 		} while (playerHandValue < 21 && hit == true);
 
-		if (playerHandValue > 21) {
-			System.out.println("bust");
+		if (	( (BlackjackHand) player.getHand() ) .isBust()	) {
+			System.out.println("You bust with a score of " + playerHandValue + " " + player.getHand());
 		}
 
 	}
@@ -103,11 +110,16 @@ public class BlackJackApp {
 	public void resolveWinner() {
 
 		BlackjackHandComparator winDecider = new BlackjackHandComparator();
-		if (dealerDecisions() <= 21) {
-			System.out.println("The dealer's score is " + getHandValue(dealer) + " with the cards: " + dealer.getHand());
-			System.out.println("Your score is " + getHandValue(player) + " with the cards: " + player.getHand());
-			// use comparator here to enable usage of a switch for winner? (-1, 0, 1)
+		int dealerHandValue = dealerDecisions();
+		if (dealerHandValue <= 21) {
+			System.out.println("The dealer's score is " + getHandValue(dealer) + 
+								" with the cards: " + dealer.getHand());
+			
+			System.out.println("Your score is " + getHandValue(player) + 
+								" with the cards: " + player.getHand());
+			
 			int winner = winDecider.compare(dealer.getHand(), player.getHand());
+			
 			switch (winner) {
 			case -1:
 				System.out.println("You won!");
@@ -119,7 +131,7 @@ public class BlackJackApp {
 				System.out.println("Push");
 			}
 		} else {
-			System.out.println("Dealer busts");
+			System.out.println("Dealer busts " + "with the cards: " + dealer.getHand());
 		}
 	}
 
@@ -142,5 +154,12 @@ public class BlackJackApp {
 		int handValue = ((BlackjackHand) player.getHand()).getHandValue();
 		return handValue;
 	}
-
+	
+//	public void aceValueDetermination(Player player) {
+//		if (player.getHand())
+//	}
+	
+	public void printStars() {
+		System.out.println("*******************************************************");
+	}
 }
