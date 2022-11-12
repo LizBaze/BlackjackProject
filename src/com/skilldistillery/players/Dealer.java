@@ -2,6 +2,7 @@ package com.skilldistillery.players;
 
 import java.util.List;
 
+import com.skilldistillery.cardgame.BlackjackHand;
 import com.skilldistillery.cards.Card;
 import com.skilldistillery.cards.Deck;
 
@@ -36,6 +37,20 @@ public class Dealer extends Player {
 		this.deck = deck;
 	}
 	
+	public BlackjackHand dealerDecisions(Dealer dealer, BlackjackHand hand) {
+		int dealerHandValue = ((BlackjackHand) getHand()).getHandValue();
+		do {
+			if (dealerHandValue >= 17 && dealerHandValue <= 21) {
+				break;
+			} else if (dealerHandValue > 21) {
+				break;
+			} else if (dealerHandValue < 17) {
+				receiveCard(dealer.dealCard());
+				dealerHandValue = ((BlackjackHand) getHand()).getHandValue();
+			}
+		} while (dealerHandValue < 21);
+		return hand;
+	}
 	
 	
 }
