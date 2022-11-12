@@ -113,8 +113,13 @@ public class BlackJackApp {
 		BlackjackHandComparator winDecider = new BlackjackHandComparator();
 
 		// Call dealerDecisions and assign the result to the dealer's hand
-		dealer.setHand(dealer.dealerDecisions((dealer), ((BlackjackHand) dealer.getHand())));
-
+		BlackjackHand dealerHand = ((BlackjackHand) dealer.getHand());
+		dealerHand = dealer.dealerDecisions(dealer, dealerHand);
+		dealer.setHand(dealerHand);
+		
+		//Original unreadable version of the above ^
+//		dealer.setHand(dealer.dealerDecisions((dealer), ((BlackjackHand) dealer.getHand())));
+		
 		int dealerHandValue = getHandValue(dealer);
 		if (dealerHandValue <= 21) {
 			System.out
@@ -147,15 +152,15 @@ public class BlackJackApp {
 		}
 	}
 
-
 	// casts to BlackjackHand to get the value, used for readability elsewhere
 	public int getHandValue(Player player) {
 		int handValue = ((BlackjackHand) player.getHand()).getHandValue();
 		return handValue;
 	}
-
+	
+	//TODO figure this out
 //	public void aceValueDetermination(Player player) {
-//		if (player.getHand())
+//		if (player.getHand().contains())
 //	}
 
 	public void printStars() {

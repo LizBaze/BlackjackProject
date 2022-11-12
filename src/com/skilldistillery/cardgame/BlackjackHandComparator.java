@@ -9,7 +9,6 @@ public class BlackjackHandComparator {
 		} else if (hand1.getHandValue() < hand2.getHandValue()) {
 			result = -1;
 		}
-		
 		return result;
 	}
 
