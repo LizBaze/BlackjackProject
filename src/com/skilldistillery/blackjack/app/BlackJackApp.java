@@ -69,10 +69,8 @@ public class BlackJackApp {
 					player.receiveCard(dealer.dealCard());
 					playerHandValue = getHandValue(player);
 					break;
-				case "n": // TODO what does the program do when they're done getting cards
+				case "n":
 					hit = false;
-					resolveWinner();
-
 					break;
 				}
 
@@ -83,10 +81,13 @@ public class BlackJackApp {
 
 		} while (playerHandValue < 21 && hit == true);
 
-		if (	( (BlackjackHand) player.getHand() ) .isBust()	) {
+		if (((BlackjackHand) player.getHand()).isBust()) {
+			printStars();
 			System.out.println("You bust with a score of " + playerHandValue + " " + player.getHand());
+			printStars();
+		} else {
+			resolveWinner();
 		}
-
 	}
 
 	public boolean playAgain(Scanner sc, boolean keepGoing) {
@@ -110,59 +111,53 @@ public class BlackJackApp {
 	public void resolveWinner() {
 
 		BlackjackHandComparator winDecider = new BlackjackHandComparator();
-		
-		//Call dealerDecisions and assign the result to the dealer's hand
+
+		// Call dealerDecisions and assign the result to the dealer's hand
 		dealer.setHand(dealer.dealerDecisions((dealer), ((BlackjackHand) dealer.getHand())));
-		
+
 		int dealerHandValue = getHandValue(dealer);
 		if (dealerHandValue <= 21) {
-			System.out.println("The dealer's score is " + getHandValue(dealer) + 
-								" with the cards: " + dealer.getHand());
-			
-			System.out.println("Your score is " + getHandValue(player) + 
-								" with the cards: " + player.getHand());
-			
+			System.out
+					.println("The dealer's score is " + getHandValue(dealer) + " with the cards: " + dealer.getHand());
+
+			System.out.println("Your score is " + getHandValue(player) + " with the cards: " + player.getHand());
+
 			int winner = winDecider.compare(dealer.getHand(), player.getHand());
-			
+
 			switch (winner) {
 			case -1:
+				printStars();
 				System.out.println("You won!");
+				printStars();
 				break;
 			case 1:
+				printStars();
 				System.out.println("Dealer wins");
+				printStars();
 				break;
 			case 0:
+				printStars();
 				System.out.println("Push");
+				printStars();
 			}
 		} else {
-			System.out.println("Dealer busts at " + dealerHandValue + "with the cards: " + dealer.getHand());
+			printStars();
+			System.out.println("Dealer busts at " + dealerHandValue + " with the cards: " + dealer.getHand());
+			printStars();
 		}
 	}
 
-//	public int dealerDecisions() {
-//		int dealerHandValue = getHandValue(dealer);
-//		do {
-//			if (dealerHandValue >= 17 && dealerHandValue <= 21) {
-//				break;
-//			} else if (dealerHandValue > 21) {
-//				break;
-//			} else if (dealerHandValue < 17) {
-//				dealer.receiveCard(dealer.dealCard());
-//				dealerHandValue = getHandValue(dealer);
-//			}
-//		} while (dealerHandValue < 21);
-//		return dealerHandValue;
-//	}
 
+	// casts to BlackjackHand to get the value, used for readability elsewhere
 	public int getHandValue(Player player) {
 		int handValue = ((BlackjackHand) player.getHand()).getHandValue();
 		return handValue;
 	}
-	
+
 //	public void aceValueDetermination(Player player) {
 //		if (player.getHand())
 //	}
-	
+
 	public void printStars() {
 		System.out.println("*******************************************************");
 	}
