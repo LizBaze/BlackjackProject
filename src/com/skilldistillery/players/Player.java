@@ -16,7 +16,8 @@ public class Player {
 
 	public void showHand() {
 		for (Card card : hand.getCards()) {
-			System.out.println(card);
+			System.out.print(card + " ");
+			System.out.println();
 		}
 	}
 

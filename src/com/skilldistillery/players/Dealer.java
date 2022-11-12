@@ -17,11 +17,23 @@ public class Dealer extends Player {
 		return deck.removeCard();
 	}
 	
-	public void showPartialHand() {
+	public String showPartialHand() {
 		List<Card> hand = getHand().getCards();
+		String results = "The dealer shows: ";
 		for (int i = 1; i < hand.size(); i++) {
-			System.out.println("" + hand.get(i));
+			results += hand.get(i) + " ";
 		}
+		return results;
+	}
+
+
+	public Deck getDeck() {
+		return deck;
+	}
+
+
+	public void setDeck(Deck deck) {
+		this.deck = deck;
 	}
 	
 	
