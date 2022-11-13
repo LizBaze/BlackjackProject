@@ -27,6 +27,8 @@ public class BlackJackApp {
 			initialDeal(dealer, player);
 
 			playerDecisions(sc);
+			
+			resolveWinner();
 
 			keepGoing = playAgain(sc, keepGoing);
 
@@ -82,7 +84,6 @@ public class BlackJackApp {
 			}
 
 		} while (playerHandValue < 21 && hit == true);
-		resolveWinner();
 	}
 
 	public boolean playAgain(Scanner sc, boolean keepGoing) {
@@ -121,12 +122,7 @@ public class BlackJackApp {
 			BlackjackHandComparator winDecider = new BlackjackHandComparator();
 
 			// Call dealerDecisions and assign the result to the dealer's hand
-			BlackjackHand dealerHand = ((BlackjackHand) dealer.getHand());
-			dealerHand = dealer.dealerDecisions(dealer, dealerHand);
-			dealer.setHand(dealerHand);
-
-			// Original unreadable version of the above ^
-//		dealer.setHand(dealer.dealerDecisions((dealer), ((BlackjackHand) dealer.getHand())));
+			dealerDecisions(dealer);
 
 			int dealerHandValue = getHandValue(dealer);
 			if (dealerHandValue <= 21) {
@@ -162,6 +158,23 @@ public class BlackJackApp {
 	public int getHandValue(Player player) {
 		int handValue = ((BlackjackHand) player.getHand()).getHandValue();
 		return handValue;
+	}
+	
+	public void dealerDecisions(Dealer dealer) {
+		int dealerHandValue = getHandValue(dealer);
+		do {
+			if (dealerHandValue >= 17 && dealerHandValue <= 21) {
+				break;
+			} else if (dealerHandValue > 21) {
+				break;
+			} else if (dealerHandValue < 17) {
+				dealer.receiveCard(dealer.dealCard());
+				if (getHandValue(dealer) > 21) {
+					((BlackjackHand) dealer.getHand()).isSoft(dealer);
+				}
+				dealerHandValue = getHandValue(dealer);
+			}
+		} while (dealerHandValue < 21);
 	}
 
 	public void printStars() {
