@@ -1,9 +1,10 @@
 package com.skilldistillery.cardgame;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.skilldistillery.cards.Card;
+import com.skilldistillery.cards.Rank;
+import com.skilldistillery.players.Player;
 
 public class BlackjackHand extends Hand {
 	
@@ -50,8 +51,13 @@ public class BlackjackHand extends Hand {
 		return isBlackjack;
 	}
 	
-	
-	
+	public void isSoft(Player player) {
+		for (Card card : player.getHand().getCards()) {
+			if (card.getRank().equals(Rank.ACE) && ((BlackjackHand) player.getHand()).getHandValue() >= 21) {
+				card.setRank(Rank.ONE);
+			}
+		}
+	}	
 	
 }
 

@@ -46,6 +46,9 @@ public class Dealer extends Player {
 				break;
 			} else if (dealerHandValue < 17) {
 				receiveCard(dealer.dealCard());
+				if (((BlackjackHand) getHand()).getHandValue() > 21) {
+					((BlackjackHand) dealer.getHand()).isSoft(dealer);
+				}
 				dealerHandValue = ((BlackjackHand) getHand()).getHandValue();
 			}
 		} while (dealerHandValue < 21);

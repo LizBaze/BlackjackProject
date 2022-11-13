@@ -10,8 +10,9 @@ public class Deck {
 	public Deck() {
 		cards = new ArrayList<>();
 		for (Suit suit : Suit.values()) {
-			for (Rank rank : Rank.values()) {
-				cards.add(new Card(rank, suit));
+			// Create a card for every value in Rank except Rank.ONE which will be used only for soft Aces
+			for (int i = 1; i < Rank.values().length; i++) {
+				cards.add(new Card(Rank.values()[i], suit));
 			}
 		}
 	}
