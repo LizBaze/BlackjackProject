@@ -24,6 +24,8 @@ public class BlackJackApp {
 
 		do {
 
+			dealer.getDeck().shuffle();
+			
 			initialDeal(dealer, player);
 
 			playerDecisions(sc);
@@ -38,13 +40,7 @@ public class BlackJackApp {
 	}
 
 	public void initialDeal(Dealer dealer, Player player) {
-		if (dealer.getDeck().checkDeckSize() < 12) {
-			dealer.setDeck(new Deck());
-			printStars();
-			System.out.println("The dealer will reshuffle the deck now.");
-			printStars();
-		}
-		dealer.getDeck().shuffle();
+		newDeckCheck();
 		player.getHand().clear();
 		dealer.getHand().clear();
 		player.receiveCard(dealer.dealCard());
@@ -119,13 +115,11 @@ public class BlackJackApp {
 			printStars();
 		} else {
 
+			dealerDecisions(dealer);
+			
 			BlackjackHandComparator winDecider = new BlackjackHandComparator();
 
-			// Call dealerDecisions and assign the result to the dealer's hand
-			dealerDecisions(dealer);
-
-			int dealerHandValue = getHandValue(dealer);
-			if (dealerHandValue <= 21) {
+			if ( ! ((BlackjackHand) dealer.getHand()).isBust()) {
 				printScores();
 				int winner = winDecider.compare(dealer.getHand(), player.getHand());
 
@@ -153,12 +147,6 @@ public class BlackJackApp {
 			}
 		}
 	}
-
-	// casts to BlackjackHand to get the value, used for readability elsewhere
-	public int getHandValue(Player player) {
-		int handValue = ((BlackjackHand) player.getHand()).getHandValue();
-		return handValue;
-	}
 	
 	public void dealerDecisions(Dealer dealer) {
 		int dealerHandValue = getHandValue(dealer);
@@ -176,6 +164,22 @@ public class BlackJackApp {
 			}
 		} while (dealerHandValue < 21);
 	}
+	
+	// casts players hands to type BlackjackHand to get the value, used for readability elsewhere
+	public int getHandValue(Player player) {
+		int handValue = ((BlackjackHand) player.getHand()).getHandValue();
+		return handValue;
+	}
+	
+	public void newDeckCheck() {
+		if (dealer.getDeck().checkDeckSize() < 12) {
+			dealer.setDeck(new Deck());
+			printStars();
+			System.out.println("The dealer will reshuffle the deck now.");
+			printStars();
+			dealer.getDeck().shuffle();
+		}
+	}
 
 	public void printStars() {
 		System.out.println("*******************************************************");
@@ -187,6 +191,5 @@ public class BlackJackApp {
 		System.out.println(
 				"The dealer's score is " + getHandValue(dealer) + " with the cards: " + dealer.getHand());
 		printStars();
-
 	}
 }
