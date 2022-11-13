@@ -5,9 +5,7 @@ import java.util.Scanner;
 
 import com.skilldistillery.cardgame.BlackjackHand;
 import com.skilldistillery.cardgame.BlackjackHandComparator;
-import com.skilldistillery.cards.Card;
 import com.skilldistillery.cards.Deck;
-import com.skilldistillery.cards.Rank;
 import com.skilldistillery.players.Dealer;
 import com.skilldistillery.players.Player;
 
